@@ -53,7 +53,7 @@ function __orgHopperFuzzyFind {
   elif ! grep -q "^$ORG_HOPPER_ORG" "$ORG_HOPPER_CACHE_FILE"; then
     echo "$fg[yellow]Cache found but is for a different organization. Refreshing...$reset_color"
     __orgHopperRefresh
-  elif ((age_seconds > 60 * 60 * 24 * 14)); then
+  elif ((age_seconds > 60 * 60 * 24 * 60)); then
     echo "$fg[yellow]Cache is outdated. Refreshing...$reset_color"
     __orgHopperRefresh
   else
