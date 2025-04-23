@@ -44,7 +44,7 @@ export ORG_HOPPER_ORG=<desired-organization>
 
 # Optional, with the below defaults
 export ORG_HOPPER_CACHE_LOCATION=$HOME
-export ORG_HOPPER_DIRECTORY=$HOME/$ORG_HOPPER_ORG
+export ORG_HOPPER_REPO_DIRECTORY=$HOME/$ORG_HOPPER_ORG
 export ORG_HOPPER_COLOR_RECENT=cyan
 export ORG_HOPPER_COLOR_OUTDATED=red
 ```
