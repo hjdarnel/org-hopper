@@ -88,7 +88,7 @@ Fuzzy find GitHub repositories in an organization.
 Available commands:
 $fg[green]<none>$reset_color     Open fuzzy finder for current repository cache
 $fg[green]refresh$reset_color    Refresh repository cache
-$fg[green]age$reset_color        Check the age of the current repo cache
+$fg[green]age$reset_color        Check the age of the current repository cache
 
 Current configuration:
 $fg[yellow]ORG_HOPPER_ORG:$reset_color $fg[green]${ORG_HOPPER_ORG:-Not set}$reset_color

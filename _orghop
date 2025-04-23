@@ -1,0 +1,5 @@
+#compdef orghop
+
+_arguments \
+  '1: :((refresh\:"Refresh repository cache" age\:"Check the age of the current repository cache"))' \
+  '*:filename:_files'
