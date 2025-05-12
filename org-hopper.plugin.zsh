@@ -91,7 +91,7 @@ function __orgHopperRefresh {
   mkdir -p "$ORG_HOPPER_CACHE_LOCATION"
   date +%s > "$ORG_HOPPER_CACHE_FILE"
   echo "$results" >> "$ORG_HOPPER_CACHE_FILE"
-  echo "[blue]Updated $(echo "$results" | wc -l | xargs) repositories for '$ORG_HOPPER_ORG'.$reset_color"
+  echo "$fg[blue]Updated $(echo "$results" | wc -l | xargs) repositories for '$ORG_HOPPER_ORG'.$reset_color"
 }
 
 function __orgHopperEchoInfo {
