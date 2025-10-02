@@ -7,6 +7,7 @@ autoload colors && colors || {
 : "${ORG_HOPPER_REPO_DIRECTORY:=$HOME/$ORG_HOPPER_ORG}"
 : "${ORG_HOPPER_COLOR_RECENT:=cyan}"
 : "${ORG_HOPPER_COLOR_OUTDATED:=red}"
+: "${ORG_HOPPER_TOPIC:=}"
 
 ORG_HOPPER_CACHE_FILE="${ORG_HOPPER_CACHE_LOCATION}/.org_hopper.cache"
 
@@ -50,7 +51,7 @@ function __orgHopperFuzzyFind {
 
   if [ ! -f "$ORG_HOPPER_CACHE_FILE" ]; then
     __orgHopperRefresh
-  elif ! grep -q "^$ORG_HOPPER_ORG" "$ORG_HOPPER_CACHE_FILE"; then
+  elif ! grep -iqE "^$ORG_HOPPER_ORG" "$ORG_HOPPER_CACHE_FILE"; then
     echo "$fg[yellow]Cache found but is for a different organization. Refreshing...$reset_color"
     __orgHopperRefresh
   elif ((age_seconds > 60 * 60 * 24 * 60)); then
@@ -83,7 +84,18 @@ function __orgHopperFuzzyFind {
 function __orgHopperRefresh {
   echo "$fg[blue]Refreshing repositories for '$ORG_HOPPER_ORG'...$reset_color"
   local results
-  if ! results=$(gh repo list "$ORG_HOPPER_ORG" -L 300 --no-archived --json nameWithOwner -q '.[]."nameWithOwner"'); then
+  local gh_command="gh repo list \"$ORG_HOPPER_ORG\" -L 300 --no-archived"
+
+  if [ -n "$ORG_HOPPER_TOPIC" ]; then
+    gh_command="$gh_command --topic \"$ORG_HOPPER_TOPIC\""
+    echo "$fg[blue]Filtering by topic: '$ORG_HOPPER_TOPIC'$reset_color"
+  fi
+
+  gh_command="$gh_command --json nameWithOwner -q '.[].nameWithOwner'"
+
+  echo $gh_command
+  
+  if ! results=$(eval "$gh_command"); then
     echo "$fg[red]Failed to fetch repository list. Please check your GitHub credentials.$reset_color"
     return 1
   fi
@@ -105,8 +117,10 @@ $fg[green]age$reset_color        Check the age of the current repository cache
 
 Current configuration:
 $fg[yellow]ORG_HOPPER_ORG:$reset_color $fg[green]${ORG_HOPPER_ORG:-Not set}$reset_color
+$fg[yellow]ORG_HOPPER_TOPIC:$reset_color $fg[green]${ORG_HOPPER_TOPIC:-Not set}$reset_color
 $fg[yellow]ORG_HOPPER_REPO_DIRECTORY:$reset_color $fg[green]$ORG_HOPPER_REPO_DIRECTORY$reset_color
-$fg[yellow]ORG_HOPPER_CACHE_LOCATION:$reset_color $fg[green]$ORG_HOPPER_CACHE_LOCATION$reset_color"
+$fg[yellow]ORG_HOPPER_CACHE_LOCATION:$reset_color $fg[green]$ORG_HOPPER_CACHE_LOCATION$reset_color
+$fg[yellow]ORG_HOPPER_CACHE_FILE:$reset_color $fg[green]$ORG_HOPPER_CACHE_FILE$reset_color"
 }
 
 function orghop {
