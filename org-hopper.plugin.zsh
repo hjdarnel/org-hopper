@@ -93,8 +93,6 @@ function __orgHopperRefresh {
 
   gh_command="$gh_command --json nameWithOwner -q '.[].nameWithOwner'"
 
-  echo $gh_command
-  
   if ! results=$(eval "$gh_command"); then
     echo "$fg[red]Failed to fetch repository list. Please check your GitHub credentials.$reset_color"
     return 1
