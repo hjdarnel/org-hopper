@@ -68,7 +68,7 @@ function __orgHopperFuzzyFind {
   fi
 
   local repo_name=$(cut -d "/" -f2 <<< "$selection")
-  local repo_directory="${REPO_DIRECTORY:-$ORG_HOPPER_REPO_DIRECTORY}/$repo_name"
+  local repo_directory="$ORG_HOPPER_REPO_DIRECTORY/$repo_name"
 
   if [ -d "$repo_directory" ]; then
     cd "$repo_directory" || return 1
